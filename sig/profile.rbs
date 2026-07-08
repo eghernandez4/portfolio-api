@@ -3,5 +3,5 @@ class Profile
 
   def only_one_profile: -> void
 
-  def set_singleton_guard: () -> bool
+  def set_singleton_guard: () -> int
 end

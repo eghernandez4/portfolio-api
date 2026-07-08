@@ -9,7 +9,7 @@ class Profile < ApplicationRecord
   private
 
   def set_singleton_guard
-    self.singleton_guard = true
+    self.singleton_guard = 1
   end
 
   def only_one_profile

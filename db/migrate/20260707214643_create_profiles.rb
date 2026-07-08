@@ -12,12 +12,12 @@ class CreateProfiles < ActiveRecord::Migration[8.1]
       t.string :linkedin_url
       t.string :github_url
       t.string :website_url
-      t.integer :singleton_guard, default: true, null: false
+      t.integer :singleton_guard, default: 1, null: false
 
       t.timestamps
     end
 
     add_index :profiles, :singleton_guard, unique: true
-    add_check_constraint :profiles, "singleton_guard = TRUE", name: "profiles_singleton_guard_check"
+    add_check_constraint :profiles, "singleton_guard = 1", name: "profiles_singleton_guard_check"
   end
 end
