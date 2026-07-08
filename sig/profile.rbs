@@ -1,0 +1,7 @@
+class Profile
+  private
+
+  def only_one_profile: -> void
+
+  def set_singleton_guard: () -> bool
+end
