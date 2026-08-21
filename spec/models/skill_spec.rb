@@ -27,40 +27,40 @@ RSpec.describe Skill, type: :model do
 
   describe 'validations' do
     it 'is valid with name, category, level, years and display_order' do
-      skill = Skill.new(name: 'Ruby on Rails', category: 'Backend', level: 'Expert', years: 8, display_order: 1)
+      skill = build(:skill, name: 'Ruby on Rails', category: 'Backend', level: 'Expert', years: 8, display_order: 1)
       expect(skill).to be_valid
     end
 
     it 'is invalid without a name' do
-      skill = Skill.new(name: nil)
+      skill = build(:skill, name: nil)
       expect(skill).not_to be_valid
       expect(skill.errors[:name]).to include("can't be blank")
     end
 
     it 'validates uniqueness of name' do
-      Skill.create!(name: 'Ruby on Rails')
-      duplicate = Skill.new(name: 'Ruby on Rails')
+      create(:skill, name: 'Ruby on Rails')
+      duplicate = build(:skill, name: 'Ruby on Rails')
       expect(duplicate).not_to be_valid
       expect(duplicate.errors[:name]).to include('has already been taken')
     end
 
     it 'is invalid with non-integer display_order' do
-      skill = Skill.new(name: 'Ruby', display_order: 1.5)
+      skill = build(:skill, name: 'Ruby', display_order: 1.5)
       expect(skill).not_to be_valid
     end
 
     it 'is invalid with negative display_order' do
-      skill = Skill.new(name: 'Ruby', display_order: -1)
+      skill = build(:skill, name: 'Ruby', display_order: -1)
       expect(skill).not_to be_valid
     end
 
     it 'is invalid with non-integer years' do
-      skill = Skill.new(name: 'Ruby', years: 1.5)
+      skill = build(:skill, name: 'Ruby', years: 1.5)
       expect(skill).not_to be_valid
     end
 
     it 'is invalid with negative years' do
-      skill = Skill.new(name: 'Ruby', years: -1)
+      skill = build(:skill, name: 'Ruby', years: -1)
       expect(skill).not_to be_valid
     end
   end

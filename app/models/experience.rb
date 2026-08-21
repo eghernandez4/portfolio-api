@@ -1,10 +1,10 @@
 class Experience < ApplicationRecord
   EMPLOYMENT_TYPES = %w[full_time part_time contract freelance internship self_employed].freeze
 
-  has_many :projects, dependent: :destroy
+  has_many :projects, -> { order(display_order: :asc) }, dependent: :destroy
   has_many :achievements, dependent: :destroy
   has_many :experience_skills, dependent: :destroy
-  has_many :skills, through: :experience_skills
+  has_many :skills, -> { order(display_order: :asc) }, through: :experience_skills
 
   before_validation :clear_end_date_if_current
 

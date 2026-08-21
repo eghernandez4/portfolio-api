@@ -26,40 +26,40 @@ RSpec.describe Experience, type: :model do
 
   describe 'validations' do
     it 'is valid with company, position, start_date and display_order' do
-      exp = Experience.new(company: 'Otto', position: 'Senior Ruby Developer', start_date: Date.today - 1.year, current: true, display_order: 1)
+      exp = build(:experience, :current, company: 'Otto', position: 'Senior Ruby Developer', start_date: Date.today - 1.year, display_order: 1)
       expect(exp).to be_valid
     end
 
     it 'is invalid without company' do
-      exp = Experience.new(company: nil, position: 'Developer', start_date: Date.today, current: true)
+      exp = build(:experience, :current, company: nil, position: 'Developer', start_date: Date.today)
       expect(exp).not_to be_valid
       expect(exp.errors[:company]).to include("can't be blank")
     end
 
     it 'is invalid without position' do
-      exp = Experience.new(company: 'Otto', position: nil, start_date: Date.today, current: true)
+      exp = build(:experience, :current, company: 'Otto', position: nil, start_date: Date.today)
       expect(exp).not_to be_valid
       expect(exp.errors[:position]).to include("can't be blank")
     end
 
     it 'is invalid without start_date' do
-      exp = Experience.new(company: 'Otto', position: 'Dev', start_date: nil, current: true)
+      exp = build(:experience, :current, company: 'Otto', position: 'Dev', start_date: nil)
       expect(exp).not_to be_valid
       expect(exp.errors[:start_date]).to include("can't be blank")
     end
 
     it 'is invalid with non-integer display_order' do
-      exp = Experience.new(company: 'Otto', position: 'Dev', start_date: Date.today, current: true, display_order: 1.5)
+      exp = build(:experience, :current, company: 'Otto', position: 'Dev', start_date: Date.today, display_order: 1.5)
       expect(exp).not_to be_valid
     end
 
     it 'is invalid with negative display_order' do
-      exp = Experience.new(company: 'Otto', position: 'Dev', start_date: Date.today, current: true, display_order: -1)
+      exp = build(:experience, :current, company: 'Otto', position: 'Dev', start_date: Date.today, display_order: -1)
       expect(exp).not_to be_valid
     end
 
     it 'validates inclusion of employment_type' do
-      exp = Experience.new(company: 'Otto', position: 'Dev', start_date: Date.today, current: true, employment_type: 'invalid')
+      exp = build(:experience, :current, company: 'Otto', position: 'Dev', start_date: Date.today, employment_type: 'invalid')
       expect(exp).not_to be_valid
       expect(exp.errors[:employment_type]).to include('is not included in the list')
     end
@@ -67,19 +67,19 @@ RSpec.describe Experience, type: :model do
 
   describe 'callbacks and custom validations' do
     it 'clears end_date if current is true' do
-      exp = Experience.new(company: 'Otto', position: 'Dev', start_date: Date.today - 1.year, end_date: Date.today, current: true)
+      exp = build(:experience, company: 'Otto', position: 'Dev', start_date: Date.today - 1.year, end_date: Date.today, current: true)
       exp.valid?
       expect(exp.end_date).to be_nil
     end
 
     it 'validates end_date is after start_date' do
-      exp = Experience.new(company: 'Otto', position: 'Dev', start_date: Date.today, end_date: Date.today - 1.day, current: false)
+      exp = build(:experience, company: 'Otto', position: 'Dev', start_date: Date.today, end_date: Date.today - 1.day, current: false)
       expect(exp).not_to be_valid
       expect(exp.errors[:end_date]).to include('must be after start date')
     end
 
     it 'validates end_date presence if current is false' do
-      exp = Experience.new(company: 'Otto', position: 'Dev', start_date: Date.today - 1.year, end_date: nil, current: false)
+      exp = build(:experience, company: 'Otto', position: 'Dev', start_date: Date.today - 1.year, end_date: nil, current: false)
       expect(exp).not_to be_valid
       expect(exp.errors[:end_date]).to include('must be present if it is not the current job')
     end

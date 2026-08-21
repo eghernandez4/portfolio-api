@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Project, type: :model do
-  let(:experience) { Experience.create!(company: 'Otto', position: 'Dev', start_date: Date.today, current: true) }
+  let(:experience) { create(:experience, :current) }
 
   describe 'associations' do
     it 'belongs to experience' do
@@ -23,33 +23,33 @@ RSpec.describe Project, type: :model do
 
   describe 'validations' do
     it 'is valid with name, experience, and display_order' do
-      project = Project.new(name: 'POS System', experience: experience, display_order: 1)
+      project = build(:project, name: 'POS System', experience: experience, display_order: 1)
       expect(project).to be_valid
     end
 
     it 'is invalid without a name' do
-      project = Project.new(name: nil, experience: experience)
+      project = build(:project, name: nil, experience: experience)
       expect(project).not_to be_valid
       expect(project.errors[:name]).to include("can't be blank")
     end
 
     it 'is invalid without an experience' do
-      project = Project.new(name: 'POS System', experience: nil)
+      project = build(:project, name: 'POS System', experience: nil)
       expect(project).not_to be_valid
     end
 
     it 'is invalid with non-integer display_order' do
-      project = Project.new(name: 'POS', experience: experience, display_order: 1.5)
+      project = build(:project, name: 'POS', experience: experience, display_order: 1.5)
       expect(project).not_to be_valid
     end
 
     it 'is invalid with negative display_order' do
-      project = Project.new(name: 'POS', experience: experience, display_order: -1)
+      project = build(:project, name: 'POS', experience: experience, display_order: -1)
       expect(project).not_to be_valid
     end
 
     it 'validates end_date is after start_date' do
-      project = Project.new(name: 'POS', experience: experience, start_date: Date.today, end_date: Date.today - 1.day)
+      project = build(:project, name: 'POS', experience: experience, start_date: Date.today, end_date: Date.today - 1.day)
       expect(project).not_to be_valid
       expect(project.errors[:end_date]).to include('must be after start date')
     end
