@@ -2,12 +2,13 @@ source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.1.3"
-# Use postgresql as the database for Active Record
+# Use PostgreSQL as the database for Active Record
 gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
-# gem "jbuilder"
+
+# Serializer
+gem "alba"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
@@ -50,4 +51,7 @@ group :development, :test do
 
   gem "dotenv-rails"
   gem "rspec-rails"
+  # Unoptimized query detector
+  gem "bullet"
+  gem "factory_bot_rails"
 end
