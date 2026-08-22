@@ -1,0 +1,13 @@
+module Api
+  module V1
+    class ExperiencesController
+      def index: -> Array[Experience]
+
+      private
+
+      def experiences_scope: -> ActiveRecord::Relation[Experience]
+
+      def serialization_params: -> Hash[Symbol, bool]
+    end
+  end
+end

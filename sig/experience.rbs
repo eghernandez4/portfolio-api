@@ -1,0 +1,11 @@
+class Experience
+  EMPLOYMENT_TYPES: Array[String]
+
+  private
+
+  def clear_end_date_if_current: () -> (Date | nil)
+
+  def end_date_after_start_date: () -> (Date | nil)
+
+  def end_date_presence_if_not_current: -> void
+end
